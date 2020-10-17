@@ -122,7 +122,6 @@ public class FrontEndInterface {
 
     boolVal = true;
 
-    
     Assignment userAssignment = new Assignment(dueDate, assnName, courseName, points);
     if(schedule.add(userAssignment)) {
     System.out.println("The assignment was stored successfully.");
@@ -134,30 +133,10 @@ public class FrontEndInterface {
     }
   }
 
-  /**
-   * Helper method which creates and returns the product once calling the default constructor of the
-   * Product class.
-   * 
-   * @param name
-   * @param type
-   * @param manufacturer
-   * @param barcode
-   * @param price
-   * @return Product generated with the attributes as inputed by the user
-   * 
-   */
- /* private static Product createProduct(String name, String type, String manufacturer, Long barcode,
-      Double price) {
-
-    Product userProd = new Product(name, type, manufacturer, barcode, price);
-    return userProd;
-
-  } */
-
 
   /**
-   * Removes the product from the inventory associated with the particular barcode (key) value.
-   * Once found it displays the attributes of the product that has to be removed.
+   * Removes the assignment from the schedule associated with the particular date value.
+   * Once found it displays the attributes of the assignment that has to be removed.
    * 
    * @param schedule
    */
@@ -190,8 +169,8 @@ public class FrontEndInterface {
   }
 
   /**
-   * Checks if the product associated with the barcode (key) value inputed in the method exists in
-   * the inventory.
+   * Checks if the assignment associated with a date value inputed in the method exists in
+   * the schedule.
    * 
    * @param schedule
    * @return true if product is found in the inventory, else false.
@@ -242,8 +221,8 @@ public class FrontEndInterface {
   }
 
   /**
-   * Loads and adds products from a file into the inventory. It does so by parsing through the file
-   * and then sorting the input, and if it is correct it gets added to the inventory.
+   * Loads and adds products from a file into the schedule. It does so by parsing through the file
+   * and then sorting the input, and if it is correct it gets added to the schedule.
    * 
    * @param schedule
    */
