@@ -8,6 +8,7 @@
 // Notes to Grader: <optional extra notes>
 
 import java.lang.Comparable;
+import java.util.Date;
 
 /**
  * This is the Assignment class. Objects of this class will be stored in the red-black tree
