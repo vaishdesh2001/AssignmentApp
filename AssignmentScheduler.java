@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
@@ -20,7 +19,6 @@ import java.util.NoSuchElementException;
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
   private int size;
-  private boolean isDeleted = false;
 
   /**
    * method checks if a particular key is present in the RBT
@@ -40,20 +38,20 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    */
   private boolean containsHelper(Node<Assignment> node, Assignment o) {
     // if root node is null, we return false
-    if (node == null)
+    if (node == null) {
       return false;
+    }
+    if (node.isDeleted) {
+      return false;
+    }
     // uses compareTo method to store resulting positive or negative value in compare
     int compare = node.data.compareTo(o);
 
-    if (compare > 0)
+    if (compare > 0) {
       return containsHelper(node.leftChild, o);
-
-    else if (compare < 0)
+    } else if (compare < 0) {
       return containsHelper(node.rightChild, o);
-
-    else if (node.isDeleted)
-      return false;
-
+    }
     return true;
   }
 
@@ -62,8 +60,8 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    * 
    * @return value for the key
    */
-  public Node<Assignment> get(Assignment key) {
-    return getHelper(root, key);
+  public Assignment get(Date date) {
+    return getHelper(root, date);
   }
 
   /**
@@ -73,26 +71,29 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    * @param node root
    * @return node for the key
    */
-  private Node<Assignment> getHelper(Node<Assignment> node, Assignment key) {
-    // if root node is null, we return false
+  private Assignment getHelper(Node<Assignment> node, Date date) {
+    // if root node is null, we return null
     if (node == null)
       return null;
 
     // uses compareTo method to store resulting positive or negative value in compare
-    int compare = root.data.compareTo(key);
+    int compare = node.data.getDate().compareTo(date);
 
     // if the value stored at root is greater then the key to lookup
     // we recurse in the left subtree until we find the node
     if (compare > 0)
-      getHelper(node.leftChild, key);
+      getHelper(node.leftChild, date);
     // else check recursively in the right-subtree
     else if (compare < 0)
-      getHelper(node.rightChild, key);
+      getHelper(node.rightChild, date);
+    // when found returns Assignment
+    else if (compare == 0)
+      return node.data;
     // if the node found is marked as deleted the method will return null
     else if (node.isDeleted)
       return null;
-    // returns the node for the key
-    return node;
+    // return null when not found
+    return null;
   }
 
   /**
@@ -100,24 +101,29 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    * 
    * @return inOrder linked-list keys
    */
-  public LinkedList<Node<Assignment>> getInOrderTraversal() {
-    LinkedList<Node<Assignment>> keys = new LinkedList<>();
-    inOrder(root, keys);
-    return keys;
+  public String getInOrderTraversal() {
+    String n = toStringHelper(root);
+    System.out.println(n);
+    return n;
   }
 
   /**
    * helper for inOrder
    * 
-   * @param node root of tree
-   * @param keys list of keys
+   * @param current - root of tree
+   * 
    */
-  private void inOrder(Node<Assignment> node, LinkedList<Node<Assignment>> keys) {
-    if (node != null && !node.isDeleted) {
-      inOrder(node.leftChild, keys);
-      keys.add(node);
-      inOrder(node.rightChild, keys);
+  public String toStringHelper(Node<Assignment> current) {
+    String toReturn = "";
+    if (current == null) {
+      return toReturn;
+    } else {
+      // in order traversal
+      toReturn = toReturn + toStringHelper(current.leftChild);
+      toReturn = toReturn + current.data.toString() + "\n";
+      toReturn = toReturn + toStringHelper(current.rightChild);
     }
+    return toReturn;
   }
 
   /**
@@ -134,27 +140,21 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
   }
 
   /**
-   * This method adds a new element to the tree by calling insert function. Does not allow user
-   * cannot insert a value which has been set to delete
    * 
-   * @param node
-   * @param value
+   * @param value to be added
+   * @return true if is successfully adds the element
    */
-  public void add(Assignment value) {
+  public boolean add(Assignment value) {
     // calls insert only if RBT does not already contains the value to be added
     // to avoid duplicates
     if (!this.contains(value)) {
       this.insert(value);
-    }
-
-    // if the element exists in the tree but has been marked deleted
-    if (!this.contains(value)) {
-      if (this.isDeleted) {
-        this.insert(value);
-      }
+      // increments size on adding a new element
+      size++;
+      return true;
     }
     // increments size on adding a new element
-    size++;
+    return false;
   }
 
   /**
@@ -167,15 +167,20 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
     return size;
   }
 
-  // Node<T> - Assignment
-  // Assignment extends Node<Date>
-  // T - Date
   /**
    * This method deletes value of the element by marking it deleted, but not actually removing the
    * node.
    * 
    */
-  public Node<Assignment> deleteNode(Node<Assignment> node, Assignment value)
+  public Assignment deleteNode(Date date) {
+    return deleteNodeHelper(root, date);
+  }
+
+  /**
+   * Delete Node Helper
+   * 
+   */
+  public Assignment deleteNodeHelper(Node<Assignment> node, Date date)
       throws NoSuchElementException {
     // returns if the node to be deleted is null
     if (node == null) {
@@ -186,24 +191,24 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
       throw new NoSuchElementException("Element has already been deleted from the tree.");
     }
     // uses compareTo method to store resulting positive or negative value in compare
-    int compare = node.data.compareTo(value);
+    int compare = node.data.getDate().compareTo(date);
 
     // if the data of node from where the operation is to be started is greater than
     // the value to be deleted, we recursively go down the left-subtree until we find the
     // value to be deleted
     if (compare > 0) {
-      return deleteNode(node.leftChild, value);
+      return deleteNodeHelper(node.leftChild, date);
     }
     // else we traverse down the right subtree until we find the value
     else if (compare < 0) {
-      return deleteNode(node.rightChild, value);
+      return deleteNodeHelper(node.rightChild, date);
       // as soon as the value matches the data to be deleted, i.e. compare == 0,
       // we mark the node as isDeleted
     } else {
       node.isDeleted = true;
     }
     // returns the node marked deleted
-    return node;
+    return node.data;
   }
 
   /**
