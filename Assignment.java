@@ -8,7 +8,6 @@
 // Notes to Grader: <optional extra notes>
 
 import java.lang.Comparable;
-import java.util.Date;
 
 /**
  * This is the Assignment class. Objects of this class will be stored in the red-black tree
@@ -27,6 +26,13 @@ public class Assignment implements Comparable<Assignment> {
     this.numPoints = numPoints;
   }
 
+  
+  @Override
+  public String toString()
+  {
+	  return (courseName + " " + assignmentName + " " + dueDate + " " + numPoints);
+  }
+  
   @Override
   public int compareTo(Assignment o) {
     // first check by the assignment date
