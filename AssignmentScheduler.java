@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
+// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
@@ -12,8 +13,8 @@ import java.util.NoSuchElementException;
  * 
  * @author ayushi
  *
- *         This class implements Red Black Tree data structure, which stores objects of Assignment
- *         class as nodes
+ * This class implements Red Black Tree data structure, which stores objects of Assignment
+ * class as nodes
  * @param <T>
  */
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
@@ -107,7 +108,7 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
     return n;
   }
 
-  /**
+   /**
    * helper for inOrder
    * 
    * @param current - root of tree
@@ -118,25 +119,14 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
     if (current == null) {
       return toReturn;
     } else {
+        if(!current.isDeleted) {
       // in order traversal
       toReturn = toReturn + toStringHelper(current.leftChild);
       toReturn = toReturn + current.data.toString() + "\n";
       toReturn = toReturn + toStringHelper(current.rightChild);
+      }
     }
     return toReturn;
-  }
-
-  /**
-   * This method performs an in-order traversal of the tree. The string representations of each data
-   * value within this tree are assembled into a comma separated string within brackets (similar to
-   * many implementations of java.util.Collection, like java.util.ArrayList, LinkedList, etc).
-   * 
-   * @return string containing the values of this tree in order
-   * 
-   */
-  @Override
-  public String toString() {
-    return root.toString();
   }
 
   /**
