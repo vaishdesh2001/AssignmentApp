@@ -250,7 +250,7 @@ public class AssignmentTester {
         //updating expected result for new traversal
         expectedResult = "Quiz, Astron 123, 10, 11/6/2020"+ "\n"+ "Quiz, Math 240, 20, 11/7/2020"+"\n"+ 
                          "Exam, Math 240, 100, 11/8/2020"+"\n"+ "Homework, Linguis 101, 50, 11/9/2020"+"\n"+
-                         "Quiz, Psych 414, 80, 11/10/2020"+"\n";
+                         "Quiz, Psych 414, 80, 11/10/2020"+ "\n";
         
         //checking if traversal output matches expected result
         if(!expectedResult.equals(test.getInOrderTraversal()))
