@@ -2,7 +2,7 @@
 // Name: Uday Malhotra
 // Email: umalhotra@wisc.edu
 // Team: LB
-// Role: Data Wrangler 2
+// Role: Test Engineer 2
 // TA: Divyanshu Saxena
 // Lecturer: Gary Dahl
 // Notes to Grader: <optional extra notes>
@@ -251,7 +251,7 @@ public class AssignmentTester {
     fail("Test compareTo failed");
      //assignments d and a due on same date, but d is alphabetically lower in course name
     if(d.compareTo(a) > -1)
-    fail("Test compareTo failed")
+    fail("Test compareTo failed");
     }
 
 }

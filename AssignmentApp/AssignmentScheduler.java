@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
-// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
@@ -12,9 +11,9 @@ import java.util.NoSuchElementException;
  * 
  * @author ayushi
  *
- * This class implements Red Black Tree data structure, which stores objects of Assignment
- * class as nodes
- * @param T - Assignment
+ *         This class implements Red Black Tree data structure, which stores objects of Assignment
+ *         class as nodes
+ * @param <T>
  */
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
@@ -136,22 +135,19 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    */
   public boolean add(Assignment value) throws java.lang.IllegalArgumentException {
     // calls insert only if RBT does not already contains the value to be added
-    // to avoid duplicates
-    if (size == 0) {
+   // to avoid duplicates
+    if(this.contains(value)){
+      if(this.get(value).isDeleted)
+      this.get(value).isDeleted = false;
+      else
+      return false;
+    }
+    else{
       this.insert(value);
-      size++;
-      return true;
-    } else if (this.get(value) == null) {
-      this.insert(value);
+    }
       // increments size on adding a new element
       size++;
       return true;
-    } else if (this.get(value) != null && this.get(value).isDeleted) {
-      this.get(value).isDeleted = false;
-      return true;
-    }
-    // increments size on adding a new element
-    return false;
   }
 
   /**
@@ -204,6 +200,7 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
       node.data.isDeleted = true;
     }
     // returns the node marked deleted
+    size--;
     return node.data;
   }
 
