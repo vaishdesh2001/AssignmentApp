@@ -26,6 +26,7 @@ public class AssignmentTester {
      * 
      * @return true if add works correctly
      */
+    @Test
     public void testAdd(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -62,6 +63,7 @@ public class AssignmentTester {
      * 
      * @return true if contains functions correctly
      */
+    @Test
     public void testContains(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -107,6 +109,7 @@ public class AssignmentTester {
      * 
      * @return true if delete functions correctly
      */
+    @Test
     public void testDelete(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -169,6 +172,7 @@ public class AssignmentTester {
      * 
      * @return true if get functions correctly
      */
+    @Test
     public void testGet(){
         //creating intial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -205,6 +209,7 @@ public class AssignmentTester {
      * 
      * @return true if file is generated
      */
+    @Test
     public void testGenerator(){
         //creating an object of the assignment generator class
         AssignmentGenerator fileGen = new AssignmentGenerator();
@@ -225,6 +230,7 @@ public class AssignmentTester {
      * 
      * @return true if compareTo is implemented correctly
      */
+    @Test
     public void testCompareTo(){
     //declaring intial assignments to run tests on
     Assignment a = new Assignment(new Date(10, 11, 2020), "Quiz", "Psych 414", 80);
