@@ -24,7 +24,6 @@ public class AssignmentTester {
      * 
      * Tree is checked for size, and elements.
      * 
-     * @return true if add works correctly
      */
     @Test
     public void testAdd(){
@@ -61,7 +60,6 @@ public class AssignmentTester {
      * 
      * Tree is checked for nodes that are present, missing, or deleted.
      * 
-     * @return true if contains functions correctly
      */
     @Test
     public void testContains(){
@@ -107,7 +105,6 @@ public class AssignmentTester {
      * an already deleted node, and deleting a node that is
      * not present.
      * 
-     * @return true if delete functions correctly
      */
     @Test
     public void testDelete(){
@@ -170,7 +167,6 @@ public class AssignmentTester {
      * Tree is checked for present nodes, missing nodes, and 
      * deleted nodes.
      * 
-     * @return true if get functions correctly
      */
     @Test
     public void testGet(){
@@ -207,7 +203,6 @@ public class AssignmentTester {
      * This method tests if file of random assignments
      * is generated succesfully.
      * 
-     * @return true if file is generated
      */
     @Test
     public void testGenerator(){
@@ -228,7 +223,6 @@ public class AssignmentTester {
      * Tests are done for equal dates, greater and smaller dates, equal dates differing
      * in course names, etc.
      * 
-     * @return true if compareTo is implemented correctly
      */
     @Test
     public void testCompareTo(){
