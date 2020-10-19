@@ -278,13 +278,13 @@ public class FrontEndInterface {
   }
 
   /**
-   * Prints the assignments in the schedule in order, similar to how a Linked List or an Array
+   * Prints the assignments in the schedule, similar to how a Linked List or an Array
    * prints the elements.
    * 
    * @param schedule
    */
   private static void printAssignments(AssignmentScheduler schedule) {
-    System.out.println(schedule.getInOrderTraversal());
+    System.out.println(schedule.toString());
   }
 
 
