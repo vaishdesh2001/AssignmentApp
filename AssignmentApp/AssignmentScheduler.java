@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
-// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
@@ -20,40 +19,40 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
   private int size;
 
-  // /**
-  // * method checks if a particular key is present in the RBT
-  // *
-  // * @return true if key if present in RBT
-  // */
-  // public boolean contains(Assignment o) {
-  // return containsHelper(root, o);
-  // }
-  //
-  // /**
-  // * Helper for contains method
-  // *
-  // * @param node - root
-  // * @param key - key to lookup
-  // * @return true if the node can be found with specified key, false if marked deleted
-  // */
-  // private boolean containsHelper(Node<Assignment> node, Assignment o) {
-  // // if root node is null, we return false
-  // if (node == null) {
-  // return false;
-  // }
-  // // uses compareTo method to store resulting positive or negative value in compare
-  // int compare = node.data.compareTo(o);
-  //
-  // if (compare > 0) {
-  // return containsHelper(node.leftChild, o);
-  // } else if (compare < 0) {
-  // return containsHelper(node.rightChild, o);
-  // } else {
-  // if (node.data.isDeleted)
-  // return false;
-  // }
-  // return true;
-  // }
+  /**
+  * method checks if a particular key is present in the RBT
+  *
+  * @return true if key if present in RBT
+  */
+  public boolean contains(Assignment o) {
+  return containsHelper(root, o);
+  }
+  
+  /**
+  * Helper for contains method
+  *
+  * @param node - root
+  * @param key - key to lookup
+  * @return true if the node can be found with specified key, false if marked deleted
+  */
+  private boolean containsHelper(Node<Assignment> node, Assignment o) {
+  // if root node is null, we return false
+  if (node == null) {
+  return false;
+  }
+  // uses compareTo method to store resulting positive or negative value in compare
+  int compare = node.data.compareTo(o);
+  
+  if (compare > 0) {
+  return containsHelper(node.leftChild, o);
+  } else if (compare < 0) {
+  return containsHelper(node.rightChild, o);
+  } else {
+  if (node.data.isDeleted)
+  return false;
+  return true;
+  }
+  }
 
   /**
    * Get Value for a given key
@@ -96,8 +95,11 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
         compare = 0;
       }
     }
-    if (compare == 0)
-      return subtree.data;
+    if (compare == 0){
+        if(subtree.data.isDeleted)
+        return null;
+    return subtree.data;
+    }
 
     // store newNode within left subtree of subtree
     else if (compare < 0) {
@@ -115,41 +117,8 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
         return getHelper(node, subtree.rightChild, date, course);
     }
   }
-
   /**
-   * InOrder traversal
-   * 
-   * @return inOrder linked-list keys
-   */
-  public String getInOrderTraversal() {
-    // String n = toStringHelper(root);
-    return root.toString();
-  }
-
-  /**
-   * helper for inOrder
-   * 
-   * @param current - root of tree
-   * 
-   */
-  public String toStringHelper(Node<Assignment> current) {
-    String toReturn = "";
-    if (current == null) {
-      return toReturn;
-    } else {
-      // in order traversal
-      toReturn = toReturn + toStringHelper(current.leftChild);
-      if (!current.data.isDeleted)
-        toReturn = toReturn + current.toString() + "\n";
-      toReturn = toReturn + toStringHelper(current.rightChild);
-    }
-    return toReturn;
-  }
-
-  /**
-   * This method performs an in-order traversal of the tree. The string representations of each data
-   * value within this tree are assembled into a comma separated string within brackets (similar to
-   * many implementations of java.util.Collection, like java.util.ArrayList, LinkedList, etc).
+   * This method calls to string from the RBT class.
    * 
    * @return string containing the values of this tree in order
    * 
@@ -169,6 +138,7 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
     // to avoid duplicates
     if (size == 0) {
       this.insert(value);
+      size++;
       return true;
     } else if (this.get(value) == null) {
       this.insert(value);
@@ -249,12 +219,5 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
           .println("The assignment you were trying to find could not be found in the schedule.");
     }
 
-  }
-
-  public static void main(String[] args) {
-    AssignmentScheduler runner = new AssignmentScheduler();
-    AssignmentGenerator fileGen = new AssignmentGenerator();
-    fileGen.generateFile();
-    FrontEndInterface.beginPrompt(runner);
   }
 }

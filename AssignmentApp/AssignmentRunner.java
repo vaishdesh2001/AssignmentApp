@@ -9,10 +9,11 @@
 
 
 public class AssignmentRunner {
-  public static void main(String args[]) {
-    System.out.println("now generating file");
-    AssignmentGenerator fileGen = new AssignmentGenerator();
-    fileGen.generateFile();
-    
+    public static void main(String args[]) {
+      System.out.println("now generating file");
+      AssignmentGenerator fileGen = new AssignmentGenerator();
+      fileGen.generateFile();  
+      AssignmentScheduler runner = new AssignmentScheduler();
+      FrontEndInterface.beginPrompt(runner); 
+    }
   }
-}
