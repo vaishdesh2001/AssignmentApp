@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
+// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
