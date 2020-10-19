@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
+// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
@@ -11,9 +12,9 @@ import java.util.NoSuchElementException;
  * 
  * @author ayushi
  *
- *         This class implements Red Black Tree data structure, which stores objects of Assignment
- *         class as nodes
- * @param <T>
+ * This class implements Red Black Tree data structure, which stores objects of Assignment
+ * class as nodes
+ * @param T - Assignment
  */
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
