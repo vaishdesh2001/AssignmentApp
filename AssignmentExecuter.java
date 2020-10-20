@@ -7,12 +7,16 @@
 // Lecturer: Gary Dahl
 // Notes to Grader: <optional extra notes>
 
-
+/**
+ * Main method to execute file generation, assignment scheduler and front end.
+ * @author shreyans
+ */
 public class AssignmentExecuter {
   public static void main(String args[]) {
-      System.out.println("now generating file");
+      System.out.println("Loading data");
       AssignmentGen fileGen = new AssignmentGen();
-      fileGen.Genfile();  
+      fileGen.Genfile();
+      System.out.println("Data Loaded");
       AssignmentScheduler runner = new AssignmentScheduler();
       FrontEndInterface.beginPrompt(runner); 
     }
