@@ -103,7 +103,7 @@ public class FrontEndInterface {
     String dateStr = sc.nextLine();
     String[] dateArr = dateStr.split("/");
     Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (month, date, year)
+        Integer.parseInt(dateArr[2])); // Date (date, month, year)
 
     String assnName = sc.nextLine();
     String courseName = sc.nextLine();
@@ -133,7 +133,7 @@ public class FrontEndInterface {
         System.out.println();
       }
     } catch (java.lang.IllegalArgumentException iae) {
-      System.out.println("Scheduler already contains that assignment");
+      System.out.println("Scheduler already contains that assignment.");
     }
 
   }
@@ -150,8 +150,8 @@ public class FrontEndInterface {
     String dateStr = sc.nextLine();
     String[] dateArr = dateStr.split("/");
     Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (month, date, year)
-    System.out.println("For which course is the assignment you want to remove?");
+        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+    System.out.println("List the course for which you want to remove the assignment.");
     String course = sc.nextLine();
     System.out.println("The assignment trying to be removed is: ");
 
@@ -190,7 +190,7 @@ public class FrontEndInterface {
     String dateStr = sc.nextLine();
     String[] dateArr = dateStr.split("/");
     Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (month, date, year)
+        Integer.parseInt(dateArr[2])); // Date (date, month, year)
 
     String assnName = sc.nextLine();
     String courseName = sc.nextLine();
@@ -216,8 +216,8 @@ public class FrontEndInterface {
     String dateStr = sc.nextLine();
     String[] dateArr = dateStr.split("/");
     Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (month, date, year)
-    System.out.println("For which course is the assignment you want to remove?");
+        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+    System.out.println("List the course for which you want to find the assignment.");
     String course = sc.nextLine();
     try {
       Assignment returned = schedule.get(dueDate, course);
@@ -257,7 +257,7 @@ public class FrontEndInterface {
           String dateStr = allData[0];
           String[] dateArr = dateStr.split("/");
           Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-              Integer.parseInt(dateArr[2])); // Date (month, date, year)
+              Integer.parseInt(dateArr[2])); // Date (date, month, year)
 
           String assnName = allData[1];
           String courseName = allData[2];
@@ -306,5 +306,9 @@ public class FrontEndInterface {
     System.out.println("Enter 'C' to see the list of commands again.");
     System.out.println("----------------------------------------------------------------");
   }
+  
+                   
+    
 
 }
+
