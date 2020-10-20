@@ -10,49 +10,49 @@ import java.util.NoSuchElementException;
 // Notes to Grader: <optional extra notes>
 /**
  * 
- * @author ayushi
+ * @author Ayushi Mishra
  *
  * This class implements Red Black Tree data structure, which stores objects of Assignment
  * class as nodes
- * @param <T>
+ * @param T - Assignment
  */
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
   private int size;
 
   /**
-  * method checks if a particular key is present in the RBT
-  *
-  * @return true if key if present in RBT
-  */
-  public boolean contains(Assignment o) {
-  return containsHelper(root, o);
+   * method checks if a particular key is present in the RBT
+   *
+   * @return true if key if present in RBT
+   */
+  public boolean contains(Assignment assign) {
+    return containsHelper(root, assign);
   }
-  
+
   /**
-  * Helper for contains method
-  *
-  * @param node - root
-  * @param key - key to lookup
-  * @return true if the node can be found with specified key, false if marked deleted
-  */
-  private boolean containsHelper(Node<Assignment> node, Assignment o) {
-  // if root node is null, we return false
-  if (node == null) {
-  return false;
-  }
-  // uses compareTo method to store resulting positive or negative value in compare
-  int compare = node.data.compareTo(o);
-  
-  if (compare > 0) {
-  return containsHelper(node.leftChild, o);
-  } else if (compare < 0) {
-  return containsHelper(node.rightChild, o);
-  } else {
-  if (node.data.isDeleted)
-  return false;
-  return true;
-  }
+   * Helper for contains method
+   *
+   * @param node - root
+   * @param key  - key to lookup
+   * @return true if the node can be found with specified key, false if marked deleted
+   */
+  private boolean containsHelper(Node<Assignment> node, Assignment assign) {
+    // if root node is null, we return false
+    if (node == null) {
+      return false;
+    }
+    // uses compareTo method to store resulting positive or negative value in compare
+    int compare = node.data.compareTo(assign);
+
+    if (compare > 0) {
+      return containsHelper(node.leftChild, assign);
+    } else if (compare < 0) {
+      return containsHelper(node.rightChild, assign);
+    } else {
+      if (node.data.isDeleted)
+        return false;
+      return true;
+    }
   }
 
   /**
@@ -89,19 +89,16 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    */
   private Assignment getHelper(Node<Assignment> node, Node<Assignment> subtree, Date date,
       String course) {
-        if(subtree==null)
-        return null;
+    if (subtree == null)
+      return null;
     int compare = node.data.compareTo(subtree.data);
     if (node.data.getDate().compareTo(subtree.data.getDate()) == 0) {
       if (node.data.getCourseName().equals(subtree.data.getCourseName())) {
         compare = 0;
       }
     }
-    if (compare == 0){
-        // if(subtree.data.isDeleted)
-        // return (new Assignment(new Date(0, 0, 0), subtree.data.getAssignName(), 
-        // subtree.data.getCourseName(), subtree.data.getPoints()));
-    return subtree.data;
+    if (compare == 0) {
+      return subtree.data;
     }
 
     // store newNode within left subtree of subtree
@@ -120,6 +117,7 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
         return getHelper(node, subtree.rightChild, date, course);
     }
   }
+
   /**
    * This method calls to string from the RBT class.
    * 
@@ -132,25 +130,25 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
   }
 
   /**
+   * this method adds a new element to the RBT, if not aleady present
    * 
    * @param value to be added
    * @return true if is successfully adds the element
    */
   public boolean add(Assignment value) throws java.lang.IllegalArgumentException {
     // calls insert only if RBT does not already contains the value to be added
-   // to avoid duplicates
-    if(this.contains(value)){
+    // to avoid duplicates
+    if (this.contains(value)) {
       return false;
-    }
-    else{
-      if(this.get(value)!=null)
-      this.get(value).isDeleted = false;
+    } else {
+      if (this.get(value) != null)
+        this.get(value).isDeleted = false;
       else
-      this.insert(value);
+        this.insert(value);
     }
-      // increments size on adding a new element
-      size++;
-      return true;
+    // increments size on adding a new element
+    size++;
+    return true;
   }
 
   /**
@@ -173,7 +171,14 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
   }
 
   /**
-   * Delete Node Helper
+   * helper method for delete node method, which marks the assignment object found using key as
+   * deleted
+   * 
+   * @throws NoSuchElementException - if root node is null and if the found node is already marked
+   *                                deleted
+   * 
+   * @param node - root
+   * @param date - used as key
    * 
    */
   public Assignment deleteNodeHelper(Node<Assignment> node, Date date)
