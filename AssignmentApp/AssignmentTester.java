@@ -26,7 +26,7 @@ public class AssignmentTester {
      * Tree is checked for size, and elements.
      * 
      */
-  @Test
+    @Test
     public void testAdd(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -257,4 +257,5 @@ public class AssignmentTester {
     fail("Test failed");
     }
 }
+
 
