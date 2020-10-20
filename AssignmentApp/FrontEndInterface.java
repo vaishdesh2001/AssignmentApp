@@ -9,13 +9,12 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
- * Class that provides the Front end interface that the user interacts with, implmentation done for
- * it to work best with my HashTableMap which uses a Pair Object.
+ * Class that provides the Front end interface that the user interacts with, implementation done for
+ * it to work best with RedBlackTree which uses an Assignment object.
  * 
  * @author Rahul S
  *
@@ -100,10 +99,7 @@ public class FrontEndInterface {
             + " and the number of points it is worth.");
     System.out.println("Please enter each attribute on a new line.");
 
-    String dateStr = sc.nextLine();
-    String[] dateArr = dateStr.split("/");
-    Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+    Date dueDate = dateHelper();
 
     String assnName = sc.nextLine();
     String courseName = sc.nextLine();
@@ -122,7 +118,6 @@ public class FrontEndInterface {
     }
 
     boolVal = true;
-
     Assignment userAssignment = new Assignment(dueDate, assnName, courseName, points);
     try {
       if (schedule.add(userAssignment)) {
@@ -141,36 +136,39 @@ public class FrontEndInterface {
 
   /**
    * Removes the assignment from the schedule associated with the particular date value. Once found
-   * it displays the attributes of the assignment that has to be removed.
+   * it displays the attributes of the assignment that has to be removed, else displays a message.
    * 
    * @param schedule
    */
   private static void removeAssignment(AssignmentScheduler schedule) {
     System.out.println("Enter the date (MM/DD/YYYY) of the assignment you want to remove");
-    String dateStr = sc.nextLine();
-    String[] dateArr = dateStr.split("/");
-    Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+
+    Date dueDate = dateHelper();
     System.out.println("List the course for which you want to remove the assignment.");
     String course = sc.nextLine();
     System.out.println("The assignment trying to be removed is: ");
 
     try {
-      AssignmentScheduler.displayGet(schedule.get(dueDate, course));
+      System.out.println(schedule.get(dueDate, course).toString());
+      if (schedule.get(dueDate, course).isDeleted) {
+        System.out.println(
+            "The assignment you were trying to find has already been removed or completed.");
+      } else if (schedule.deleteNode(dueDate) != null) {
+        System.out.println("The assignment was removed successfully.");
+        System.out.println();
+      } else {
+        System.out
+            .println("The assignment you were trying to remove did not exist in the scheduler.");
+      }
     } catch (NoSuchElementException e1) {
       System.out.println(
           "The assignment you were trying to remove did not exist in the schedule or has been "
               + "deleted. Please try adding the assignment, or checking if it exists in the "
               + "schedule first.");
       return;
-    }
-
-    if (schedule.deleteNode(dueDate) != null) {
-      System.out.println("The assignment was removed successfully.");
-      System.out.println();
-    } else {
-      System.out
-          .println("The assignment you were trying to remove did not exist in the scheduler.");
+    } catch (Exception e) {
+      System.out.println("The assignment you are trying to remove did not exist in the tree");
+      return;
     }
   }
 
@@ -182,22 +180,14 @@ public class FrontEndInterface {
    * @return true if product is found in the scheduler, else false.
    */
   private static boolean assignmentStored(AssignmentScheduler schedule) {
-    System.out
-        .println("Enter the due date (MM/DD/YYYY), the name of the assignment, the course name"
-            + "and the number of points it is worth to check if it is stored in the scheduler.");
+    System.out.println("Enter the due date (MM/DD/YYYY) and the course name "
+        + "to check if it is stored in the scheduler.");
     System.out.println("Please enter each attribute on a new line.");
 
-    String dateStr = sc.nextLine();
-    String[] dateArr = dateStr.split("/");
-    Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (date, month, year)
-
-    String assnName = sc.nextLine();
+    Date dueDate = dateHelper();
     String courseName = sc.nextLine();
-    Integer points = 0;
 
-    Assignment userAssignment = new Assignment(dueDate, assnName, courseName, points);
-    if (schedule.get(userAssignment) != null) {
+    if (schedule.get(dueDate, courseName) != null && !schedule.get(dueDate, courseName).isDeleted) {
       System.out.println("The assignment is stored in the scheduler.");
       return true;
     }
@@ -213,10 +203,7 @@ public class FrontEndInterface {
    */
   private static void findAssignment(AssignmentScheduler schedule) {
     System.out.println("Enter the date (MM/DD/YYYY) of the assignment you want to find.");
-    String dateStr = sc.nextLine();
-    String[] dateArr = dateStr.split("/");
-    Date dueDate = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
-        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+    Date dueDate = dateHelper();
     System.out.println("List the course for which you want to find the assignment.");
     String course = sc.nextLine();
     try {
@@ -226,12 +213,7 @@ public class FrontEndInterface {
             .println("The assignment you were trying to find could not be found in the schedule.");
         return;
       }
-      // if (returned.isDeleted) {
-      //   System.out
-      //       .println("The assignment you were trying to find could not be found in the schedule.");
-      //   return;
-      // }
-      System.out.println(returned.toString());
+      System.out.println(schedule.get(dueDate, course).toString());
     } catch (NoSuchElementException e1) {
       System.out
           .println("The assignment you were trying to find could not be found in the schedule.");
@@ -307,7 +289,43 @@ public class FrontEndInterface {
     System.out.println("----------------------------------------------------------------");
   }
   
-                   
-    
+  /**
+   * Helper method that helps the user input a date, till it is inputed correctly.
+   * Helper method for addAssignment(), removeAssignment(), assignmentStored(), findAssignment().
+   * 
+   * @return date - once inputed correctly
+   */
+  private static Date dateHelper() {
+    Boolean boolVal = true;
+    String dateStr = "";
 
+    while (boolVal) {
+      try {
+        dateStr = sc.nextLine();
+        if (dateStr.length() == 10 && (dateStr.contains("/"))) { // ensures correct length of input
+          for (int i = 0; i < dateStr.length(); i++) {
+            if (dateStr.charAt(i) != '/' && !Character.isDigit(dateStr.charAt(i))) {
+              boolVal = true;
+              break;
+            } else {
+              boolVal = false;
+            }
+          }
+        } else {
+          System.out.println("Please enter the date (MM/DD/YYYY) correctly.");
+          continue;
+        }
+      } catch (Exception e) {
+        System.out.println("Please enter the date (MM/DD/YYYY) correctly.");
+        sc.nextLine();
+      }
+    }
+
+    String[] dateArr = dateStr.split("/");
+    Date date = new Date(Integer.parseInt(dateArr[1]), Integer.parseInt(dateArr[0]),
+        Integer.parseInt(dateArr[2])); // Date (date, month, year)
+    return date;
+  }            
+    
 }
+
