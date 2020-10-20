@@ -26,6 +26,7 @@ public class AssignmentTester {
      * Tree is checked for size, and elements.
      * 
      */
+  @Test
     public void testAdd(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -67,6 +68,7 @@ public class AssignmentTester {
      * Tree is checked for nodes that are present, missing, or deleted.
      * 
      */
+    @Test
     public void testContains(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -111,6 +113,7 @@ public class AssignmentTester {
      * not present.
      * 
      */
+    @Test
     public void testDelete(){
         //creating an initial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -174,6 +177,7 @@ public class AssignmentTester {
      * deleted nodes.
      * 
      */
+    @Test
     public void testGet(){
         //creating intial tree
         AssignmentScheduler test = new AssignmentScheduler();
@@ -209,6 +213,7 @@ public class AssignmentTester {
      * is generated succesfully.
      * 
      */
+    @Test
     public void testGenerator(){
         //creating an object of the assignment generator class
         AssignmentGenerator fileGen = new AssignmentGenerator();
@@ -228,6 +233,7 @@ public class AssignmentTester {
      * in course names, etc.
      * 
      */
+    @Test
     public void testCompareTo(){
     //declaring intial assignments to run tests on
     Assignment a = new Assignment(new Date(10, 11, 2020), "Quiz", "Psych 414", 80);
@@ -251,3 +257,4 @@ public class AssignmentTester {
     fail("Test failed");
     }
 }
+
