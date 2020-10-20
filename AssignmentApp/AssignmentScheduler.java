@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 // Name: Ayushi Mishra
 // Email: mishra37@wisc.edu
 // Team: LB
-// Role: Backend Developer
 // TA: Divyanshu Saxena
 // Lecturer: Florian
 // Notes to Grader: <optional extra notes>
@@ -12,47 +11,47 @@ import java.util.NoSuchElementException;
  * 
  * @author ayushi
  *
- * This class implements Red Black Tree data structure, which stores objects of Assignment
- * class as nodes
- * 
+ *         This class implements Red Black Tree data structure, which stores objects of Assignment
+ *         class as nodes
+ * @param <T>
  */
 public class AssignmentScheduler extends RedBlackTree<Assignment> {
 
   private int size;
 
   /**
-   * method checks if a particular key is present in the RBT
-   *
-   * @return true if key if present in RBT
-   */
-  public boolean contains(Assignment assign) {
-    return containsHelper(root, assign);
+  * method checks if a particular key is present in the RBT
+  *
+  * @return true if key if present in RBT
+  */
+  public boolean contains(Assignment o) {
+  return containsHelper(root, o);
   }
-
+  
   /**
-   * Helper for contains method
-   *
-   * @param node - root
-   * @param key  - key to lookup
-   * @return true if the node can be found with specified key, false if marked deleted
-   */
-  private boolean containsHelper(Node<Assignment> node, Assignment assign) {
-    // if root node is null, we return false
-    if (node == null) {
-      return false;
-    }
-    // uses compareTo method to store resulting positive or negative value in compare
-    int compare = node.data.compareTo(assign);
-
-    if (compare > 0) {
-      return containsHelper(node.leftChild, assign);
-    } else if (compare < 0) {
-      return containsHelper(node.rightChild, assign);
-    } else {
-      if (node.data.isDeleted)
-        return false;
-      return true;
-    }
+  * Helper for contains method
+  *
+  * @param node - root
+  * @param key - key to lookup
+  * @return true if the node can be found with specified key, false if marked deleted
+  */
+  private boolean containsHelper(Node<Assignment> node, Assignment o) {
+  // if root node is null, we return false
+  if (node == null) {
+  return false;
+  }
+  // uses compareTo method to store resulting positive or negative value in compare
+  int compare = node.data.compareTo(o);
+  
+  if (compare > 0) {
+  return containsHelper(node.leftChild, o);
+  } else if (compare < 0) {
+  return containsHelper(node.rightChild, o);
+  } else {
+  if (node.data.isDeleted)
+  return false;
+  return true;
+  }
   }
 
   /**
@@ -89,17 +88,19 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    */
   private Assignment getHelper(Node<Assignment> node, Node<Assignment> subtree, Date date,
       String course) {
-
+        if(subtree==null)
+        return null;
     int compare = node.data.compareTo(subtree.data);
     if (node.data.getDate().compareTo(subtree.data.getDate()) == 0) {
       if (node.data.getCourseName().equals(subtree.data.getCourseName())) {
         compare = 0;
       }
     }
-    if (compare == 0) {
-      if (subtree.data.isDeleted)
-        return null;
-      return subtree.data;
+    if (compare == 0){
+        // if(subtree.data.isDeleted)
+        // return (new Assignment(new Date(0, 0, 0), subtree.data.getAssignName(), 
+        // subtree.data.getCourseName(), subtree.data.getPoints()));
+    return subtree.data;
     }
 
     // store newNode within left subtree of subtree
@@ -118,7 +119,6 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
         return getHelper(node, subtree.rightChild, date, course);
     }
   }
-
   /**
    * This method calls to string from the RBT class.
    * 
@@ -137,18 +137,19 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    */
   public boolean add(Assignment value) throws java.lang.IllegalArgumentException {
     // calls insert only if RBT does not already contains the value to be added
-    // to avoid duplicates
-    if (this.contains(value)) {
-      if (this.get(value).isDeleted)
-        this.get(value).isDeleted = false;
+   // to avoid duplicates
+    if(this.contains(value)){
+      return false;
+    }
+    else{
+      if(this.get(value)!=null)
+      this.get(value).isDeleted = false;
       else
-        return false;
-    } else {
       this.insert(value);
     }
-    // increments size on adding a new element
-    size++;
-    return true;
+      // increments size on adding a new element
+      size++;
+      return true;
   }
 
   /**
@@ -165,27 +166,18 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
    * This method deletes value of the element by marking it deleted, but not actually removing the
    * node.
    * 
-   * @param date - Date object used as key to find Assignment object
-   * 
    */
   public Assignment deleteNode(Date date) {
     return deleteNodeHelper(root, date);
   }
 
   /**
-   * Delete Node Helper method, which traverses through the RBT using Date as key and marks the node
-   * when found as deleted, also decrementing the size
+   * Delete Node Helper
    * 
-   * @param node - root node
-   * @param date - key of the element that is supposed to be marked deleted
-   * @return the assignment object which is marked as deleted
-   * 
-   * @throws NoSuchElementException - when root is null and if node is found in tree which is marked
-   *                                as deleted
    */
   public Assignment deleteNodeHelper(Node<Assignment> node, Date date)
       throws NoSuchElementException {
-    // throws an exception if root is null
+    // returns if the node to be deleted is null
     if (node == null) {
       throw new NoSuchElementException("Element cannot be found in the tree.");
     }
@@ -209,7 +201,7 @@ public class AssignmentScheduler extends RedBlackTree<Assignment> {
         throw new NoSuchElementException("Element has already been deleted from the tree.");
       node.data.isDeleted = true;
     }
-    // returns the assignment object marked deleted
+    // returns the node marked deleted
     size--;
     return node.data;
   }

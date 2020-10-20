@@ -226,12 +226,12 @@ public class FrontEndInterface {
             .println("The assignment you were trying to find could not be found in the schedule.");
         return;
       }
-      if (returned.isDeleted) {
-        System.out
-            .println("The assignment you were trying to find could not be found in the schedule.");
-        return;
-      }
-      AssignmentScheduler.displayGet(returned);
+      // if (returned.isDeleted) {
+      //   System.out
+      //       .println("The assignment you were trying to find could not be found in the schedule.");
+      //   return;
+      // }
+      System.out.println(returned.toString());
     } catch (NoSuchElementException e1) {
       System.out
           .println("The assignment you were trying to find could not be found in the schedule.");
@@ -311,4 +311,3 @@ public class FrontEndInterface {
     
 
 }
-
