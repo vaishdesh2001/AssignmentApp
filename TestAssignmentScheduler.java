@@ -130,7 +130,7 @@ public class TestAssignmentScheduler {
 		for (int i = 0; i < arr.length; i++) {
 			Assignment temp1 = planner.get(arr[i]);
 			Assignment temp = planner.get(arr[i].getDate(), arr[i].getCourseName());
-			if (temp1 != null && temp != null) {
+			if (temp1.toString().contains("done") && temp.toString().contains("done")) {
 				fail("Assignment :" + arr[i].toString() + " was not returned");
 			}
 		}
@@ -347,7 +347,8 @@ public class TestAssignmentScheduler {
 
 	/**
 	 * test 7: testing add 1) valid assignment added should return true; 2) trying
-	 * to add same assignment checking similarities 3) trying to add null
+	 * to add same assignment checking similarities 3) trying to add null 4) all the
+	 * assignments are deleted then tried to add them again
 	 * 
 	 * @fail if any of the conditions don't return their expected output
 	 */
@@ -391,6 +392,16 @@ public class TestAssignmentScheduler {
 			fail("any other exeception thrown");
 		}
 		// size should still remain same
+		if (planner.getSize() != 5) {
+			fail("error in size");
+		}
+		for (int i = 0; i < arr.length; i++) {
+			planner.deleteNode(arr[i].getDate());
+		}
+		for (int i = 0; i < arr.length; i++) {
+			if (!planner.add(arr[i]))
+				fail("failed to add a deleted assignment");
+		}
 		if (planner.getSize() != 5) {
 			fail("error in size");
 		}
